@@ -12,14 +12,18 @@ def index():
     read = bool(request.args.get('read'))
 
     if name:
+        name_pattern = f"%{name}%"
         cursor.execute(
-            "SELECT * FROM books WHERE name LIKE '%" + name + "%'"
+            "SELECT * FROM books WHERE name LIKE %s",
+            (name_pattern,),
         )
         books = [Book(*row) for row in cursor]
 
     elif author:
+        author_pattern = f"%{author}%"
         cursor.execute(
-            "SELECT * FROM books WHERE author LIKE '%" + author + "%'"
+            "SELECT * FROM books WHERE author LIKE %s",
+            (author_pattern,),
         )
         books = [Book(*row) for row in cursor]
 
